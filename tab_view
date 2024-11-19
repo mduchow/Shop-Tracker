@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Tab View</title>
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .summary {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .summary span {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .late { color: red; }
+        .today { color: yellow; }
+        .tomorrow { color: green; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #444;
+        }
+
+        tr {
+            background-color: #2C2C2C;
+        }
+
+        tr:hover {
+            background-color: #444;
+        }
+
+        .status-in-progress { color: green; font-weight: bold; }
+        .status-on-hold { color: orange; font-weight: bold; }
+        .status-cancelled { color: red; font-weight: bold; }
+        .status-late { color: red; font-weight: bold; }
+        .status-today { color: yellow; font-weight: bold; }
+        .status-tomorrow { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Live Tab View</h1>
+    <div class="summary">
+        <span class="late">Late: {{ summary.late }} hrs</span> | 
+        <span class="today">Today: {{ summary.today }} hrs</span> | 
+        <span class="tomorrow">Tomorrow: {{ summary.tomorrow }} hrs</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Machine</th>
+                <th>Path Time</th>
+                <th>Distribution Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if tab_data %}
+                {% for row in tab_data %}
+                <tr>
+                    <td style="color: {{ row.color }};">{{ row.FileName }}</td>
+                    <td>{{ row.Machine }}</td>
+                    <td>{{ row.PathTime }}</td>
+                    <td>{{ row.DistributionDate }}</td>
+                    <td class="status-{{ row.Status | lower | replace(' ', '-') }}">{{ row.Status }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5">No data available</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>
